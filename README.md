@@ -1,5 +1,9 @@
-# VisualizeMaps
-Map visualization tool based on the QGIS python development enviornment.
+# VisualizeMaps - Map visualization tool based on the QGIS python development enviornment.
+
+![Coveralls GitHub](https://img.shields.io/coveralls/github/Aeronetica/VisualizeMaps.svg)
+![GitHub (Pre-)Release](https://img.shields.io/github/v/release/Aeronetica/VisualizeMaps?include_prereleases)
+![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/KonnexionsGmbh/VisualizeMaps)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/Aeronetica/VisualizeMaps/0.9.8)
 
 ## 1. What is VisualizeMaps?
 VisualizeMaps is a graphical visualization tool used to verify GIS maps of different kinds.  It allows visualization of both raster and vector maps, which it displays on a background of shaded relief terrain, Bing satalite maps, and Bing placename maps.  The tool allows cycling through different maps in order to see how different maps change, or it allows for the simultanous display of all the maps.  Vector maps are displayed on top of the raster maps and satalitte background, by default.
