@@ -1,9 +1,9 @@
 # VisualizeMaps - Release Notes
 
-![Coveralls GitHub](https://img.shields.io/coveralls/github/IO-AERO/VisualizeMaps.svg)
-![GitHub (Pre-)Release](https://img.shields.io/github/v/release/IO-AERO/VisualizeMaps?include_prereleases)
+![Coveralls GitHub](https://img.shields.io/coveralls/github/io-aero/VisualizeMaps.svg)
+![GitHub (Pre-)Release](https://img.shields.io/github/v/release/io-aero/VisualizeMaps?include_prereleases)
 ![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/KonnexionsGmbh/VisualizeMaps)
-![GitHub commits since latest release](https://img.shields.io/github/commits-since/IO-AERO/VisualizeMaps/0.9.8)
+![GitHub commits since latest release](https://img.shields.io/github/commits-since/io-aero/VisualizeMaps/0.9.8)
 
 ## 1. Version 9.9.9 
 
