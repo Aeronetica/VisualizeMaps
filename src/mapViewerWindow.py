@@ -39,7 +39,7 @@ class mapViewerWindow(QMainWindow):
         self.foreGroundLayer = QgsRasterLayer(
             "type=xyz&url=http://ecn.t3.tiles.virtualearth.net/tiles/ho%7Bq%7D.jpeg?g%3D1&zmax=18&zmin=0", "OSM", "wms")
 
-        self.setWindowTitle('IO-AERO GIS Analysis Application')
+        self.setWindowTitle('IO-Aaero GIS Analysis Application')
         #Some flags I don't know if some of these are needed anymore
         self.rasterLayers = []
         self.baseRasterLayers = []
