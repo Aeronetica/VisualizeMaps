@@ -6,6 +6,9 @@ from qgis._gui import *
 from qgis.PyQt.QtWidgets import *
 from qgis.PyQt.QtCore import *
 import ntpath, os
+import PIL.Image as Image
+
+import toolBarActions as tb
 
 class mapTypes():
     Default = 0
@@ -39,13 +42,14 @@ class mapViewerWindow(QMainWindow):
         self.foreGroundLayer = QgsRasterLayer(
             "type=xyz&url=http://ecn.t3.tiles.virtualearth.net/tiles/ho%7Bq%7D.jpeg?g%3D1&zmax=18&zmin=0", "OSM", "wms")
 
-        self.setWindowTitle('IO-Aaero GIS Analysis Application')
+        self.setWindowTitle('IO-Aero GIS Analysis Application')
         #Some flags I don't know if some of these are needed anymore
         self.rasterLayers = []
         self.baseRasterLayers = []
         self.vectorLayers = []
         self.hillLayers = []
         self.mapInfos = []
+        self.toolBarActions = []
         self.rasterCounter = -1
         self.currentRasterLayer = -1
         self.allRasOn = True
@@ -60,9 +64,51 @@ class mapViewerWindow(QMainWindow):
         self.rastersOn = True
         self.openBackgroundVectorLayers()
         self.buildCanvas()
+        self.addBaseToolBar()
+        self.addUserToolBar()
+        self.turnOnTools()
+        
+    def addBaseToolBar(self):
+        self.actionZoomIn = QAction("Zoom on Area", self)
+        self.actionZoomOut = QAction("Zoom out", self)
+        self.actionPan = QAction("Pan", self)
+        self.actionHome = QAction("Home Extent", self)
+        self.actionZoomIn.setCheckable(True)
+        self.actionZoomOut.setCheckable(True)
+        self.actionPan.setCheckable(True)
+        self.actionZoomIn.triggered.connect(self.zoomIn)
+        self.actionZoomOut.triggered.connect(self.zoomOut)
+        self.actionPan.triggered.connect(self.pan)
+        self.actionHome.triggered.connect(self.home)
+    
+    def addUserToolBar(self):
+        self.toolBarActions.append(tb.toolBarActions(description='Save JPG', connectFunction=self.saveJPG))    
+            
+    def turnOnTools(self):
+        self.toolbar = self.addToolBar("Main Actions")
+        self.toolbar.addAction(self.actionZoomIn)
+        self.toolbar.addAction(self.actionZoomOut)
+        self.toolbar.addAction(self.actionPan)
+        self.toolbar.addAction(self.actionHome)
+        self.toolPan = QgsMapToolPan(self.canvas)
+        self.toolPan.setAction(self.actionPan)
+        self.toolZoomIn = QgsMapToolZoom(self.canvas, False)  # false = in
+        self.toolZoomIn.setAction(self.actionZoomIn)
+        self.toolZoomOut = QgsMapToolZoom(self.canvas, True)  # true = out
+        self.toolZoomOut.setAction(self.actionZoomOut)
+        self.addToolBarBreak()
+        self.toolbar2 = self.addToolBar("User Actions")
+        for action in self.toolBarActions:
+            thisAction = QAction(action.description, self)
+            thisAction.setCheckable = action.checkable
+            thisAction.triggered.connect(action.connectFunction)
+            if(action.toolbar == 0):
+                self.toolbar2.addAction(thisAction)
+                
+
 
     def openBackgroundVectorLayers(self):
-        latLonLines = r'../maps/vectorMaps/reproj-latLon_Shapefile.shp'
+        latLonLines = r'maps/vectorMaps/reproj-latLon_Shapefile.shp'
         lyr = QgsVectorLayer(latLonLines, 'Lat Lon Lines')
         lineSymbol = QgsLineSymbol.createSimple(
             {'color': '155,155,155,255', 'line_style': 'dot', 'width': '.45'})
@@ -168,6 +214,7 @@ class mapViewerWindow(QMainWindow):
         if self.backOn == True:
             LayerList.append(self.backGroundLayer)
         return LayerList
+    
     def setRenderHillshade(self, layer, zf):  # set render type to 'hillshade'
         zfNew = zf# * 24.74 / layer.rasterUnitsPerPixelX()
         newAlt = 10 * 24.74 / (layer.rasterUnitsPerPixelX() * layer.rasterUnitsPerPixelY())
@@ -180,6 +227,40 @@ class mapViewerWindow(QMainWindow):
         layer.setRenderer(r)
         layer.setBlendMode(QPainter.CompositionMode_Multiply)
 
+    def saveJPG(self):
+        
+        jpgFile = QFileDialog.getSaveFileName(self, 'Save Image As',
+                                                r'C:\0-Data\0-GeneratedData',
+                                                "jpg Files (*.jpg)")
+        if (jpgFile[0] == ''):
+            print('Select File in the correct way right now we have <' + jpgFile[0] + '>')
+            return
+        tmpFile = os.path.splitext(jpgFile[0])[0] + '_tmp.jpg'
+        self.canvas.saveAsImage(tmpFile)
+        lowRes = Image.open(tmpFile)
+        lowRes_rgb = lowRes.convert('RGB')
+        lowRes_rgb.save(jpgFile[0], "JPEG", optimize=True, quality=90)
+
+        print('Canvas Image Saved at <' + jpgFile[0] + '>')
+        if os.path.exists(tmpFile):
+            os.remove(tmpFile)
+        jgwFile = os.path.splitext(jpgFile[0])[0] + '_tmp.jgw'
+        if os.path.exists(jgwFile):
+            os.remove(jgwFile)
+
+    def zoomIn(self):
+        self.canvas.setMapTool(self.toolZoomIn)
+
+    def zoomOut(self):
+        self.canvas.setMapTool(self.toolZoomOut)
+
+    def pan(self):
+        self.canvas.setMapTool(self.toolPan)
+
+    def home(self):
+        self.canvas.setExtent(self.home_extent)
+        self.canvas.refresh()
+         
 if __name__ == "__main__":
 
     QgsApplication.setPrefixPath("C:\\OSGeo4W64\\apps\\qgis", True)
@@ -187,11 +268,11 @@ if __name__ == "__main__":
     qgs.initQgis()
     mp = mapViewerWindow()
     mp.addRasterLayer(
-        fn=r'../maps/rasterMaps/reproj-TDM1_DEM__30_N46E008_DEM_OrigVect.tif',
-        Tag='OrigVect', mapType=mapTypes.Terrain)
-    mp.addRasterLayer(
-        fn=r'../maps/rasterMaps/reproj-TDM1_DEM__30_N47E008_DEM_OrigVect.tif',
-        Tag='OrigVect', mapType=mapTypes.Terrain)
+        fn=r'D:/0-SourceData/Landcover/nlcd_2019_land_cover/nlcd_2019_land_cover_l48_20210604.img',
+        Tag='Landcover', mapType=mapTypes.Default)
+    # mp.addRasterLayer(
+    #     fn=r'../maps/rasterMaps/reproj-TDM1_DEM__30_N47E008_DEM_OrigVect.tif',
+    #     Tag='OrigVect', mapType=mapTypes.Terrain)
 
 
     mp.show()

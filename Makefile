@@ -130,13 +130,10 @@ mypy:               ## Find typing issues with Mypy.
 	@echo ----------------------------------------------------------------------
 	${PIPENV} run mypy --exclude TET.py ${PYTHONPATH_DEV}
 	@echo Info **********  End:   Mypy ****************************************
-
-# pip is the package installer for Python.
 # https://pypi.org/project/pip/
 # Configuration file: none
 # Pipenv: Python Development Workflow for Humans.
 # https://github.com/pypa/pipenv
-# Configuration file: Pipfile
 pipenv-dev:         ## Install the package dependencies for development.
 	@echo Info **********  Start: Installation of Development Packages ********
 	@echo MYPYPATH  =${MYPYPATH}
