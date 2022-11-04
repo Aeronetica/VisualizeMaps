@@ -180,7 +180,7 @@ class mapViewerWindow(QMainWindow):
         linestyle="dot",
         width=0.45,
     ):
-        vl = vlyr.vectorLayer(filename=filename, maptype=mapTypes.latlon, name='')
+        vl = vlyr.vectorLayer(filename=filename, maptype=mapTypes.latlon, name="")
         vl.buildLatLonLyr(color=color, linestyle=linestyle, width=width)
         self.maps["latlon"] = vl
         self.vectorLayers.insert(0, vl)
@@ -220,25 +220,6 @@ class mapViewerWindow(QMainWindow):
 
     def returnLayerList(self):
         LayerList = []
-        # for raster in self.rasterLayers:
-        #     if raster.maptype == mapTypes.foreground:
-        #         if self.labelsOn and self.backOn:
-        #             LayerList.insert(0, raster) #Has to be in the first position
-        #     elif raster.maptype == mapTypes.background:
-        #             LayerList.append(raster)  #Has to be in the last position
-        #     else:
-        #         if self.rastersOn:
-        #             if self.allRasOn:
-        #                 if len(LayerList) > 0:
-        #                     LayerList.insert(1, raster.lyr)
-        #                     if self.layerhillshade is True:
-        #                         LayerList.insert(1, raster.hillLyr)
-
-        #                 else:
-        #                     LayerList.append(raster)
-        #             else:
-        #                 if (self.rasterLayers.index() == self.currentRasterLayer):
-
         if self.backOn and self.labelsOn:
             LayerList.append(self.maps["foreground"].lyr)
 
