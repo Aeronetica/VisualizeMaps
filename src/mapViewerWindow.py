@@ -120,6 +120,9 @@ class mapViewerWindow(QMainWindow):
             tb.toolBarActions(description="Save JPG", connectFunction=self.saveJPG)
         )
         self.toolBarActions.append(
+            tb.toolBarActions(description="Toggle Rasters", connectFunction=self.toggle_rasters)
+        )
+        self.toolBarActions.append(
             tb.toolBarActions(
                 description="Lat Lon",
                 connectFunction=self.toggleLatLon,
@@ -305,6 +308,10 @@ class mapViewerWindow(QMainWindow):
         self.canvas.setExtent(self.home_extent)
         self.canvas.refresh()
 
+    def toggle_rasters(self):
+        self.rastersOn = not self.rastersOn
+        self.canvas.setLayers(self.returnLayerList())
+        
     def queryRas(self, pointTool):
         self.canvas.setMapTool(self.toolQuery)
 
@@ -326,7 +333,7 @@ class mapViewerWindow(QMainWindow):
             + str(y)
         )
         # for (lyr, map) in zip(self.rasterLayers, self.mapInfos):
-        for rl in self.rasterLayers:
+        for rl in self.maps["user_rasters"]:
             ident1 = rl.lyr.dataProvider().sample(pointTool, 1)
             if ident1[1] == True:
                 print("Value of " + rl.name + " map is " + str(ident1[0]))
@@ -349,7 +356,7 @@ if __name__ == "__main__":
         mapType=mapTypes.landCover,
     )
     # mp.addVectorLayer(fn="maps/vectorMaps/testPts.shp")
-    mp.addVectorLayer(fn="maps/vectorMaps/boxLines.shp", color="0,0,0,255", size=6)
+    mp.addVectorLayer(fn="maps/vectorMaps/LESLA_traditional_areas.shp", color="255,0,0,255", size=10)
     # mp.addRasterLayer(
     #     fn=r'../maps/rasterMaps/reproj-TDM1_DEM__30_N47E008_DEM_OrigVect.tif',
     #     Tag='OrigVect', mapType=mapTypes.Terrain)
