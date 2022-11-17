@@ -6,3 +6,4 @@
 /maps/
 /src/__pycache__/*
 *.bak
+*.pyc

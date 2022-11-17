@@ -349,14 +349,14 @@ if __name__ == "__main__":
     ras = os.path.join(
         os.getcwd(), "maps/rasterMaps/nlcd_2019_land_cover_l48_20210604_viz.tif"
     )
-    print("Opening raster at: " + ras)
-    mp.addRasterLayer(
-        fn="maps/rasterMaps/nlcd_2019_land_cover_l48_20210604_viz.tif",
-        Tag="Landcover",
-        mapType=mapTypes.landCover,
-    )
-    # mp.addVectorLayer(fn="maps/vectorMaps/testPts.shp")
-    mp.addVectorLayer(fn="maps/vectorMaps/LESLA_traditional_areas.shp", color="255,0,0,255", size=10)
+    # print("Opening raster at: " + ras)
+    # mp.addRasterLayer(
+    #     fn="maps/rasterMaps/nlcd_2019_land_cover_l48_20210604_viz.tif",
+    #     Tag="Landcover",
+    #     mapType=mapTypes.landCover,
+    # )
+    mp.addVectorLayer(fn="maps/vectorMaps/testPts.shp")
+    # mp.addVectorLayer(fn="maps/vectorMaps/LESLA_traditional_areas.shp", color="255,0,0,255", size=10)
     # mp.addRasterLayer(
     #     fn=r'../maps/rasterMaps/reproj-TDM1_DEM__30_N47E008_DEM_OrigVect.tif',
     #     Tag='OrigVect', mapType=mapTypes.Terrain)
