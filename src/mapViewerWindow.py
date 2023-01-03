@@ -36,6 +36,8 @@ class mapTypes:
     latlon = 18
     background = 19
     foreground = 20
+    density = 21
+    utm_5_population = 22
 
     def __init__(self, itemType=0, itemName="", filename=""):
         self.mapType = itemType
@@ -120,13 +122,26 @@ class mapViewerWindow(QMainWindow):
             tb.toolBarActions(description="Save JPG", connectFunction=self.saveJPG)
         )
         self.toolBarActions.append(
-            tb.toolBarActions(description="Toggle Rasters", connectFunction=self.toggle_rasters)
+            tb.toolBarActions(
+                description="Toggle Rasters On/Off", connectFunction=self.toggle_rasters
+            )
+        )
+        self.toolBarActions.append(
+            tb.toolBarActions(
+                description="Toggle Vectors On/Off", connectFunction=self.toggle_vector_layers
+            )
         )
         self.toolBarActions.append(
             tb.toolBarActions(
                 description="Lat Lon",
                 connectFunction=self.toggleLatLon,
                 checkable=False,
+            )
+        )
+        self.toolBarActions.append(
+            tb.toolBarActions(
+                description="Cycle Rasters",
+                connectFunction=self.cycle_rasters,
             )
         )
 
@@ -140,13 +155,13 @@ class mapViewerWindow(QMainWindow):
             if action.toolbar == 0:
                 self.toolbar2.addAction(thisAction)
 
-    def addVectorLayer(self, fn, mapType=None, Tag="", color="255,0,0,255", size=3):
+    def addVectorLayer(self, fn, mapType=None, Tag="", color="255,0,0,255", size=3, linestyle:str='dot'):
         if not os.path.exists(fn):
             print("No map exists at " + fn)
             return
         print("Adding vector layer at " + fn)
         vl = vlyr.vectorLayer(fn, mapType, Tag)
-        vl.buildUserLyr(color=color, size=size)
+        vl.buildUserLyr(color=color, linestyle=linestyle, size=size)
         # self.vectorLayers.append(vl)
         self.maps["user_vectors"].append(vl)
         self.canvas.setLayers(self.returnLayerList())
@@ -219,6 +234,10 @@ class mapViewerWindow(QMainWindow):
 
     def toggleLatLon(self):
         self.latlonOn = not self.latlonOn
+        self.canvas.setLayers(self.returnLayerList())
+    
+    def toggle_vector_layers(self):
+        self.vectorsOn = not self.vectorsOn
         self.canvas.setLayers(self.returnLayerList())
 
     def returnLayerList(self):
@@ -309,9 +328,11 @@ class mapViewerWindow(QMainWindow):
         self.canvas.refresh()
 
     def toggle_rasters(self):
+        if not self.rastersOn:
+            self.allRasOn = True  # Turn all the rasters on
         self.rastersOn = not self.rastersOn
         self.canvas.setLayers(self.returnLayerList())
-        
+
     def queryRas(self, pointTool):
         self.canvas.setMapTool(self.toolQuery)
 
@@ -336,7 +357,17 @@ class mapViewerWindow(QMainWindow):
         for rl in self.maps["user_rasters"]:
             ident1 = rl.lyr.dataProvider().sample(pointTool, 1)
             if ident1[1] == True:
-                print("Value of " + rl.name + " map is " + str(ident1[0]))
+                print(f"Value of {rl.name} map is {ident1[0]}")
+
+    def cycle_rasters(self):
+        if self.allRasOn:
+            self.allRasOn = False
+            self.currentRasterLayer = 0
+        else:
+            self.currentRasterLayer = (self.currentRasterLayer + 1) % len(
+                self.maps["user_rasters"]
+            )
+        self.canvas.setLayers(self.returnLayerList())
 
 
 if __name__ == "__main__":
@@ -349,14 +380,22 @@ if __name__ == "__main__":
     ras = os.path.join(
         os.getcwd(), "maps/rasterMaps/nlcd_2019_land_cover_l48_20210604_viz.tif"
     )
+    vec = os.path.join(os.getcwd(), "maps/vectorMaps/LESLA_traditional_areas.shp")
     # print("Opening raster at: " + ras)
     # mp.addRasterLayer(
     #     fn="maps/rasterMaps/nlcd_2019_land_cover_l48_20210604_viz.tif",
     #     Tag="Landcover",
     #     mapType=mapTypes.landCover,
     # )
-    mp.addVectorLayer(fn="maps/vectorMaps/testPts.shp")
-    # mp.addVectorLayer(fn="maps/vectorMaps/LESLA_traditional_areas.shp", color="255,0,0,255", size=10)
+    # mp.addVectorLayer(fn=vec)
+    mp.addVectorLayer(
+        fn="maps/vectorMaps/LESLA_traditional_areas_v1.shp",
+        color="255,0,0,255",
+        size=10,
+    )
+    mp.addVectorLayer(
+        fn="maps/vectorMaps/LESLA_submaps_v1.shp", color="0,0,255,255", size=10
+    )
     # mp.addRasterLayer(
     #     fn=r'../maps/rasterMaps/reproj-TDM1_DEM__30_N47E008_DEM_OrigVect.tif',
     #     Tag='OrigVect', mapType=mapTypes.Terrain)

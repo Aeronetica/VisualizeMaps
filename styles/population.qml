@@ -19,13 +19,16 @@
         <stdDevFactor>2</stdDevFactor>
       </minMaxOrigin>
       <rastershader>
-        <colorrampshader classificationMode="1" clip="0" colorRampType="INTERPOLATED">
-          <item color="#00FF00" label="" alpha="100" value="0"/>
-          <item color="#00FF00" label="" alpha="100" value=".9"/>
-            <item color="#FFFF00" label="" alpha="100" value="1"/>
-          <item color="#FFFF00" label="" alpha="100" value="1.9"/>
-          <item color="#FF0000" label="" alpha="100" value="2"/>
-          <item color="#FF0000" label="" alpha="100" value="50000"/>
+        <colorrampshader classificationMode="1" clip="0" colorRampType="DISCRETE">
+          <item color="#00FF00" label="" alpha="0" value="0"/>
+          <item color="#FFFFAA" label="" alpha="150" value="5"/>
+          <item color="#FFE200" label="" alpha="150" value="25"/>
+          <item color="#FFF300" label="" alpha="150" value="50"/>
+          <item color="#FFBF00" label="" alpha="150" value="100"/>
+          <item color="#FF6A00" label="" alpha="150" value="500"/>
+          <item color="#FF0800" label="" alpha="150" value="2500"/>
+          <item color="#CA0000" label="" alpha="150" value="5000"/>
+          <item color="#68330034" label="" alpha="150" value="50000"/>
         </colorrampshader>
       </rastershader>
     </rasterrenderer>

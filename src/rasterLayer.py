@@ -34,6 +34,10 @@ class rasterLayer:
             self.layer_style = "styles/landingComposite.qml"
         elif maptype == mvw.mapTypes.landCover:
             self.layer_style = "styles/BaseLandCover.qml"
+        elif maptype == mvw.mapTypes.density:
+            self.layer_style = "styles/density.qml"
+        elif maptype == mvw.mapTypes.utm_5_population:
+            self.layer_style = "styles/population_utm_5.qml"
         elif maptype == mvw.mapTypes.Default:
             self.layer_style = "styles/blankTerrain.qml"
         else:

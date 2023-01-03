@@ -1,7 +1,14 @@
 import mapViewerWindow as mvw
-from qgis.core import QgsVectorLayer, QgsMarkerSymbol, QgsLineSymbol, \
-                      QgsSingleSymbolRenderer, QgsWkbTypes, QgsPalLayerSettings, \
-                      QgsTextFormat, QgsVectorLayerSimpleLabeling
+from qgis.core import (
+    QgsVectorLayer,
+    QgsMarkerSymbol,
+    QgsLineSymbol,
+    QgsSingleSymbolRenderer,
+    QgsWkbTypes,
+    QgsPalLayerSettings,
+    QgsTextFormat,
+    QgsVectorLayerSimpleLabeling,
+)
 from PyQt5.QtGui import QColor, QFont
 
 
@@ -10,8 +17,8 @@ class vectorLayer:
         self.filename = filename
         self.maptype = maptype
         self.name = name
-        
-    def buildLatLonLyr(self, color='155, 155, 155, 255', linestyle='dot', width=.45):
+
+    def buildLatLonLyr(self, color="155, 155, 155, 255", linestyle="dot", width=0.45):
         self.lyr = QgsVectorLayer(self.filename, "Lat Lon Lines")
         lineSymbol = QgsLineSymbol.createSimple(
             {"color": color, "line_style": linestyle, "width": str(width)}
@@ -32,38 +39,53 @@ class vectorLayer:
 
         text_format.setFont(font_set)
         text_format.setSize(8)
-        clrs = [int(s) for s in color.split(',')]
+        clrs = [int(s) for s in color.split(",")]
         text_format.setColor(QColor(clrs[0], clrs[1], clrs[2], clrs[3]))
         label_settings.setFormat(text_format)
         self.lyr.setLabeling(QgsVectorLayerSimpleLabeling(label_settings))
         self.lyr.setLabelsEnabled(True)
-        
-    def buildUserLyr(self, color='255,0,0,255', linestyle='dot', size=4, width=.45):
+
+    def buildUserLyr(
+        self,
+        color: str = "255,0,0,255",
+        linestyle: str = "dot",
+        size: int = 4,
+        width: float = 0.45,
+    ) -> None:
+        """_summary_
+
+        Args:
+            color (str, optional): rgba in 1 byte int 0-255. Defaults to "255,0,0,255".
+            linestyle (str, optional): Optional linestyle choices are 'solid', 'dash', 'dot' probably more. Defaults to "dot".
+            size (int, optional): Size 3 is pretty small zoomed in.. Defaults to 4.
+            width (float, optional): _description_. Defaults to 0.45.
+        """
         self.lyr = QgsVectorLayer(self.filename, self.name)
-        if (self.lyr.hasFeatures() == 0):
+        if self.lyr.hasFeatures() == 0:
             return
         features = self.lyr.getFeatures()
         for feature in features:
             print(feature.geometry().type())
-            #print(QgsWkbTypes.LineGeometry)
-            if(feature.geometry().type() == QgsWkbTypes.PointGeometry):
-                type='Point'
+            # print(QgsWkbTypes.LineGeometry)
+            if feature.geometry().type() == QgsWkbTypes.PointGeometry:
+                type = "Point"
                 break
-            elif(feature.geometry().type() == QgsWkbTypes.LineGeometry):
-                type='Line'
+            elif feature.geometry().type() == QgsWkbTypes.LineGeometry:
+                type = "Line"
                 break
             else:
-                type='Undef'
-        if(type == 'Point'):
+                type = "Undef"
+        if type == "Point":
             sym1 = QgsMarkerSymbol.createSimple(
                 {"color": color, "size": str(size), "outline_style": "no"}
             )
             self.lyr.setRenderer(QgsSingleSymbolRenderer(sym1))
-        elif(type == 'Line'):
-            width = .1 * size
+        elif type == "Line":
+            width = 0.1 * size
             lineSymbol = QgsLineSymbol.createSimple(
                 {"color": color, "line_style": linestyle, "width": str(width)}
             )
+            print(lineSymbol)
             self.lyr.renderer().setSymbol(lineSymbol)
-        #print(self.lyr.renderer().symbol().symbolLayers()[0].properties())
-        #print("Type:", self.lyr.renderer().type(), " Dump:", self.lyr.renderer().dump())
+        # print(self.lyr.renderer().symbol().symbolLayers()[0].properties())
+        # print("Type:", self.lyr.renderer().type(), " Dump:", self.lyr.renderer().dump())

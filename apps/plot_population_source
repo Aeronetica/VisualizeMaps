@@ -1,0 +1,26 @@
+from qgis.core import *
+from mapViewerWindow import mapViewerWindow
+import os
+from mapViewerWindow import mapTypes
+# from qgis.PyQt.QtWidgets import *
+# from qgis.PyQt.QtCore import *
+# from qgis._gui import *
+
+
+QgsApplication.setPrefixPath("C:\\OSGeo4W64\\apps\\qgis", True)
+qgs = QgsApplication([], True)
+qgs.initQgis()
+mp = mapViewerWindow()
+mp.loadDefaultLyrs()
+print(os.getcwd())
+
+mp.addRasterLayer(
+    fn=r"maps/rasterMaps/population_submap_1_n34000w119000_viz.tif",
+    Tag="population 2021",
+    mapType=mapTypes.Population)
+# mp.addRasterLayer(
+#     fn=r"maps/rasterMaps/utm_population_5_n34000w119000_viz.tif",
+#     Tag="utm population 2021",
+#     mapType=mapTypes.utm_5_population)
+mp.show()
+qgs.exec_()
