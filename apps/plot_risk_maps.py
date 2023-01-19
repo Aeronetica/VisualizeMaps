@@ -30,10 +30,10 @@ mp.addRasterLayer(
     fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_risk_n33900w119100_viz.tif",
     Tag="total risk",
     mapType=mapTypes.RiskMap)
-mp.addRasterLayer(
-    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_slope_n33900w119100_viz.tif",
-    Tag="total risk",
-    mapType=mapTypes.Slope)
+# mp.addRasterLayer(
+#     fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_slope_n33900w119100_viz.tif",
+#     Tag="total risk",
+#     mapType=mapTypes.Slope)
 # mp.addRasterLayer(
 #     fn=r"maps/rasterMaps/utm_population_5_n34000w119000_viz.tif",
 #     Tag="utm population 2021",

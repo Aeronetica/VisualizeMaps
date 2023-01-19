@@ -4,11 +4,11 @@ from PyQt5.QtGui import QPainter
 
 
 class rasterLayer:
-    def __init__(self, uri, maptype, name, provider='') -> None:
+    def __init__(self, uri, maptype, name, provider="") -> None:
         self.uri = uri
         self.maptype = maptype
         self.name = name
-        if (provider == ''):
+        if provider == "":
             self.lyr = QgsRasterLayer(self.uri, self.name)
         else:
             self.lyr = QgsRasterLayer(self.uri, self.name, provider)
@@ -26,6 +26,8 @@ class rasterLayer:
             self.layer_style = "styles/RiskMapStyle.qml"
         elif maptype == mvw.mapTypes.NewRiskEqn:
             self.layer_style = "styles/newRiskEqn.qml"
+        elif maptype == mvw.mapTypes.transparent_risk:
+            self.layer_style = "styles/RiskMap_transparent.qml"
         elif maptype == mvw.mapTypes.Slope:
             self.layer_style = "styles/slopeMap.qml"
         elif maptype == mvw.mapTypes.Population:

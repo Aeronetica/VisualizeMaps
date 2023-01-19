@@ -17,10 +17,18 @@ print(os.getcwd())
 mp.addRasterLayer(
     fn=r"maps/rasterMaps/population_submap_1_n34000w119000_viz.tif",
     Tag="population 2021",
-    mapType=mapTypes.Population)
+    mapType=mapTypes.transparent_risk)
+mp.addRasterLayer(
+    fn=r"maps/rasterMaps/population_submap_1_n34000w119000_viz.tif",  #These are the original data
+    Tag="population 2021",
+    mapType=mapTypes.RiskMap)
 # mp.addRasterLayer(
 #     fn=r"maps/rasterMaps/utm_population_5_n34000w119000_viz.tif",
 #     Tag="utm population 2021",
-#     mapType=mapTypes.utm_5_population)
+#     mapType=mapTypes.Population)
+# mp.addRasterLayer(
+#     fn=r"maps\rasterMaps\population_submap_n30000w120000_viz.tif",
+#     Tag="Population Source",
+#     mapType=mapTypes.Population)
 mp.show()
 qgs.exec_()

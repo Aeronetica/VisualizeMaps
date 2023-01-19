@@ -38,6 +38,7 @@ class mapTypes:
     foreground = 20
     density = 21
     utm_5_population = 22
+    transparent_risk = 23
 
     def __init__(self, itemType=0, itemName="", filename=""):
         self.mapType = itemType

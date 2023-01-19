@@ -31,22 +31,23 @@ print(os.getcwd())
 #     fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_risk_n33900w119100_viz.tif",
 #     Tag="total risk",
 #     mapType=mapTypes.RiskMap)
+output_fldr = r'C:\0-Data\0-LESLAII\ReleasedLandingStrips\TestMap\C182\ShapeFiles'
 mp.addVectorLayer(
-    fn=r"C:/0-Data/0-LESLAII/VectorData/low_risk_test_strips.shp",
+    fn=os.path.join(output_fldr, 'low_risk_test_strips.shp'),
     Tag="low_risk",
     color="0,0,255,255",
     linestyle="solid",
     size=10,
 )
 mp.addVectorLayer(
-    fn=r"C:/0-Data/0-LESLAII/VectorData/med_risk_test_strips.shp",
+    fn=os.path.join(output_fldr, 'med_risk_test_strips.shp'),
     Tag="med_risk",
     color="255,255,0,255",
     linestyle="solid",
     size=10,
 )
 mp.addVectorLayer(
-    fn=r"C:/0-Data/0-LESLAII/VectorData/high_risk_test_strips.shp",
+    fn=os.path.join(output_fldr, 'high_risk_test_strips.shp'),
     Tag="high_risk",
     color="255,0,0,255",
     linestyle="solid",
