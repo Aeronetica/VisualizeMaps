@@ -25,6 +25,9 @@
           <item color="#FFFF00" label="" alpha="255" value="3.0"/>
           <item color="#FF0000" label="" alpha="255" value="9.0"/>
           <item color="#800080" label="" alpha="255" value="10.0"/>
+          <item color="#800080" label="" alpha="255" value="14.9"/>
+          <item color="#FFFFFF" label="" alpha="255" value="15.0"/>
+          <item color="#FFFFFF" label="" alpha="255" value="200.0"/>
         </colorrampshader>
       </rastershader>
     </rasterrenderer>
