@@ -12,6 +12,7 @@ from pyproj import Transformer
 import toolBarActions as tb
 import rasterLayer as rlyr
 import vectorLayer as vlyr
+import json
 
 
 class mapTypes:
@@ -129,7 +130,8 @@ class mapViewerWindow(QMainWindow):
         )
         self.toolBarActions.append(
             tb.toolBarActions(
-                description="Toggle Vectors On/Off", connectFunction=self.toggle_vector_layers
+                description="Toggle Vectors On/Off",
+                connectFunction=self.toggle_vector_layers,
             )
         )
         self.toolBarActions.append(
@@ -156,7 +158,15 @@ class mapViewerWindow(QMainWindow):
             if action.toolbar == 0:
                 self.toolbar2.addAction(thisAction)
 
-    def addVectorLayer(self, fn, mapType=None, Tag="", color="255,0,0,255", size=3, linestyle:str='dot'):
+    def addVectorLayer(
+        self,
+        fn,
+        mapType=None,
+        Tag="",
+        color="255,0,0,255",
+        size=3,
+        linestyle: str = "dot",
+    ):
         if not os.path.exists(fn):
             print("No map exists at " + fn)
             return
@@ -236,7 +246,7 @@ class mapViewerWindow(QMainWindow):
     def toggleLatLon(self):
         self.latlonOn = not self.latlonOn
         self.canvas.setLayers(self.returnLayerList())
-    
+
     def toggle_vector_layers(self):
         self.vectorsOn = not self.vectorsOn
         self.canvas.setLayers(self.returnLayerList())
@@ -293,9 +303,15 @@ class mapViewerWindow(QMainWindow):
         layer.setBlendMode(QPainter.CompositionMode_Multiply)
 
     def saveJPG(self):
-
+        if os.path.exists("config/path.json"):
+            with open("config/path.json") as json_file:
+                path_dict=json.load(json_file)
+                open_path = path_dict["save_path"]
+        else:
+            open_path=r"D:\\"
+                
         jpgFile = QFileDialog.getSaveFileName(
-            self, "Save Image As", r"C:\0-Data\0-GeneratedData", "jpg Files (*.jpg)"
+            self, "Save Image As", open_path, "jpg Files (*.jpg)"
         )
         if jpgFile[0] == "":
             print(
@@ -303,6 +319,7 @@ class mapViewerWindow(QMainWindow):
             )
             return
         tmpFile = os.path.splitext(jpgFile[0])[0] + "_tmp.jpg"
+
         self.canvas.saveAsImage(tmpFile)
         lowRes = Image.open(tmpFile)
         lowRes_rgb = lowRes.convert("RGB")
@@ -314,6 +331,9 @@ class mapViewerWindow(QMainWindow):
         jgwFile = os.path.splitext(jpgFile[0])[0] + "_tmp.jgw"
         if os.path.exists(jgwFile):
             os.remove(jgwFile)
+        save_path = {"save_path": os.path.split(jpgFile[0])[0]}
+        with open("config/path.json", "w") as outfile:
+            json.dump(save_path, outfile, indent=2)
 
     def zoomIn(self):
         self.canvas.setMapTool(self.toolZoomIn)

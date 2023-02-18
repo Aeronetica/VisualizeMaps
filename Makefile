@@ -5,6 +5,8 @@ ifeq ($(OS),Windows_NT)
 	export PIPENV=python -m pipenv
 	export PYTHON=python
 	export PYTHONPATH=src\\dcr_core
+	export QGIS_PREFIX_PATH=C:\OSGeo4W\apps\qgis
+	export PYTHONPATH=C:\1-CodeRepos\0-Aeronetica\VisualizeMaps\src;C:\OSGeo4W\apps\qgis\python
 else
 	export MYPYPATH=
 	export PIPENV=python3 -m pipenv
@@ -38,6 +40,10 @@ lint: bandit flake8 pylint mypy
 tests: pytest
 ## -----------------------------------------------------------------------------
 
+vscode:
+	C:/OSGeo4W/bin/o4w_env.bat
+	PATH:=${PATH};C:\OSGeo4W\apps\qgis\bin
+	code .
 help:
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
 

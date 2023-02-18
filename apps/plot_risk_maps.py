@@ -7,7 +7,7 @@ from mapViewerWindow import mapTypes
 # from qgis._gui import *
 
 
-QgsApplication.setPrefixPath("C:\\OSGeo4W64\\apps\\qgis", True)
+QgsApplication.setPrefixPath("C:\\OSGeo4W\\apps\\qgis", True)
 qgs = QgsApplication([], True)
 qgs.initQgis()
 mp = mapViewerWindow()
@@ -15,19 +15,19 @@ mp.loadDefaultLyrs()
 print(os.getcwd())
 
 mp.addRasterLayer(
-    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_risk_landcover_n33900w119100_viz.tif",
+    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\test_maps_3_35_119\test_3_landcover_n34800w119200_viz.tif",
     Tag="landcover risk",
     mapType=mapTypes.RiskMap)
 mp.addRasterLayer(
-    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_risk_population_n33900w119100_viz.tif",
+    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\test_maps_3_35_119\test_3_population_n34800w119200_viz.tif",
     Tag="population risk",
     mapType=mapTypes.RiskMap)
 mp.addRasterLayer(
-    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_risk_slope_n33900w119100_viz.tif",
+    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\test_maps_3_35_119\test_3_slope_n34800w119200_viz.tif",
     Tag="slope risk",
     mapType=mapTypes.RiskMap)
 mp.addRasterLayer(
-    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\viz_maps\test_map_1_risk_n33900w119100_viz.tif",
+    fn=r"D:\0-ProjectData\2022_LESLA_PhaseII\test_maps_3_35_119\test_3_risk_n34800w119200_viz.tif",
     Tag="total risk",
     mapType=mapTypes.RiskMap)
 # mp.addRasterLayer(
