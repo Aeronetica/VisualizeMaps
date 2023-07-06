@@ -24,6 +24,8 @@ class rasterLayer:
             self.layer_style = "styles/VectorFieldStyle.qml"
         elif maptype == mvw.mapTypes.RiskMap:
             self.layer_style = "styles/RiskMapStyle.qml"
+        elif maptype == mvw.mapTypes.LidarRiskMap:
+            self.layer_style = "styles/LidarRisk.qml"
         elif maptype == mvw.mapTypes.NewRiskEqn:
             self.layer_style = "styles/newRiskEqn.qml"
         elif maptype == mvw.mapTypes.transparent_risk:

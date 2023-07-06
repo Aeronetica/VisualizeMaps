@@ -40,6 +40,7 @@ class mapTypes:
     density = 21
     utm_5_population = 22
     transparent_risk = 23
+    LidarRiskMap = 24
 
     def __init__(self, itemType=0, itemName="", filename=""):
         self.mapType = itemType
@@ -147,9 +148,14 @@ class mapViewerWindow(QMainWindow):
                 connectFunction=self.cycle_rasters,
             )
         )
+        self.toolBarActions.append(
+            tb.toolBarActions(
+                description="Toggle Lyr HillShade",
+                connectFunction=self.toggle_lyr_hillshade,
+            )
+        )
 
     def turnOnUserTools(self):
-
         self.toolbar2 = self.addToolBar("User Actions")
         for action in self.toolBarActions:
             thisAction = QAction(action.description, self)
@@ -251,6 +257,10 @@ class mapViewerWindow(QMainWindow):
         self.vectorsOn = not self.vectorsOn
         self.canvas.setLayers(self.returnLayerList())
 
+    def toggle_lyr_hillshade(self):
+        self.layerhillshade = not self.layerhillshade
+        self.canvas.setLayers(self.returnLayerList())
+
     def returnLayerList(self):
         LayerList = []
         if self.backOn and self.labelsOn:
@@ -305,11 +315,11 @@ class mapViewerWindow(QMainWindow):
     def saveJPG(self):
         if os.path.exists("config/path.json"):
             with open("config/path.json") as json_file:
-                path_dict=json.load(json_file)
+                path_dict = json.load(json_file)
                 open_path = path_dict["save_path"]
         else:
-            open_path=r"D:\\"
-                
+            open_path = r"D:\\"
+
         jpgFile = QFileDialog.getSaveFileName(
             self, "Save Image As", open_path, "jpg Files (*.jpg)"
         )
@@ -392,7 +402,6 @@ class mapViewerWindow(QMainWindow):
 
 
 if __name__ == "__main__":
-
     QgsApplication.setPrefixPath("C:\\OSGeo4W64\\apps\\qgis", True)
     qgs = QgsApplication([], True)
     qgs.initQgis()
