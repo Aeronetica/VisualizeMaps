@@ -41,6 +41,7 @@ class mapTypes:
     utm_5_population = 22
     transparent_risk = 23
     LidarRiskMap = 24
+    RiskMapTransparent = 25
 
     def __init__(self, itemType=0, itemName="", filename=""):
         self.mapType = itemType
@@ -178,7 +179,8 @@ class mapViewerWindow(QMainWindow):
             return
         print("Adding vector layer at " + fn)
         vl = vlyr.vectorLayer(fn, mapType, Tag)
-        vl.buildUserLyr(color=color, linestyle=linestyle, size=size)
+        if mapType != "kml":
+            vl.buildUserLyr(color=color, linestyle=linestyle, size=size)
         # self.vectorLayers.append(vl)
         self.maps["user_vectors"].append(vl)
         self.canvas.setLayers(self.returnLayerList())

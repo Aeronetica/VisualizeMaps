@@ -8,7 +8,7 @@ mp = mapViewerWindow()
 mp.loadDefaultLyrs()
 
 mp.addVectorLayer(
-    fn=r"C:\0-Data\0-LESLAII\VectorData\Lidar\boundingBox_Edwards.shp",
+    fn=r"\\wsl.localhost\Ubuntu\home\loydhook\data\lidar_data\Example_Shapefiles.shp",
     Tag="low_risk",
     color="0,0,255,255",
     linestyle="solid",

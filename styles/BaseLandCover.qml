@@ -40,8 +40,7 @@
           <item color="#CCCC00" label="Pasture/Hay" alpha="255" value="81"/>
           <item color="#ADFF2F" label="Cultivated Crops" alpha="255" value="82"/>
           <item color="#556B2F" label="Woody Wetlands" alpha="255" value="90"/>
-          <item color="#ADFF2F" label="Cultivated Crops" alpha="255" value="82"/>
-          <item color="#6B8E23" label="Emegent Herb Wetlands" alpha="255" value="90"/>
+          <item color="#6B8E23" label="Emegent Herb Wetlands" alpha="255" value="95"/>
         </colorrampshader>
       </rastershader>
     </rasterrenderer>
